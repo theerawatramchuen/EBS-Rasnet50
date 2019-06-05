@@ -6,10 +6,14 @@ Created on Tue Jun  4 21:29:56 2019
 
 @author: User
 """
+import time
+from keras.models import load_model
+
 #Specify Model
 from tensorflow.python.keras.applications import ResNet50
 from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Dense, Flatten, GlobalAveragePooling2D
+from keras.callbacks import ModelCheckpoint
 
 num_classes = 2
 resnet_weights_path = 'resnet50_weights_tf_dim_ordering_tf_kernels_notop.h5'
@@ -24,6 +28,17 @@ my_new_model.layers[0].trainable = False
 
 #Compile Model
 my_new_model.compile(optimizer='sgd', loss='categorical_crossentropy', metrics=['accuracy'])
+
+
+# checkpoint
+filepath="weights-improvement-{epoch:02d}-{val_acc:.2f}.hdf5"
+checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
+callbacks_list = [checkpoint]
+
+
+# Loading model weight
+start = time.time()
+# my_new_model.load_weights('EPB_rasnet50.h5')
 
 # Fit Model
 from tensorflow.python.keras.applications.resnet50 import preprocess_input
@@ -47,7 +62,11 @@ validation_generator = data_generator.flow_from_directory(
 my_new_model.fit_generator(
         train_generator,
         steps_per_epoch=562,
-        validation_data=validation_generator,epochs = 30,
-        validation_steps=140)
+        validation_data=validation_generator,epochs = 50,
+        validation_steps=140,
+        callbacks=callbacks_list)
 
-my_new_model.save_weights('EBS_rasnet50.h5')
+#my_new_model.save_weights('EBS_rasnet50_Eval.h5')
+
+end = time.time()
+print('Trainging time is',(end - start),' Seconds')
