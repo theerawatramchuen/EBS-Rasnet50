@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-https://www.kaggle.com/dansbecker/transfer-learning
 
 Created on Tue Jun  4 21:29:56 2019
 
@@ -16,22 +15,21 @@ from tensorflow.python.keras.layers import Dense, Flatten, GlobalAveragePooling2
 from keras.callbacks import ModelCheckpoint
 
 num_classes = 2
-resnet_weights_path = 'resnet50_weights_tf_dim_ordering_tf_kernels_notop.h5'
-#Download at https://www.kaggle.com/keras/resnet50/downloads/resnet50_weights_tf_dim_ordering_tf_kernels_notop.h5/2
 
 my_new_model = Sequential()
-my_new_model.add(ResNet50(include_top=False, pooling='avg', weights=resnet_weights_path))
+my_new_model.add(ResNet50(include_top=False, pooling='avg',))
 my_new_model.add(Dense(num_classes, activation='softmax'))
 
-# Say not to train first layer (ResNet) model. It is already trained
-my_new_model.layers[0].trainable = False
+# Say yes to train first layer (ResNet) model.
+my_new_model.layers[0].trainable = True
 
 #Compile Model
 my_new_model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
+my_new_model.summary()
 
 # checkpoint
-filepath="New_weights-improvement-{epoch:03d}-acc_{acc:.5f}-valacc_{val_acc:.5f}.hdf5"
+filepath="{epoch:03d}-acc_{acc:.5f}-valacc_{val_acc:.5f}.hdf5"
 checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=False, mode='max')
 callbacks_list = [checkpoint]
 
@@ -61,9 +59,7 @@ validation_generator = data_generator.flow_from_directory(
 
 my_new_model.fit_generator(
         train_generator,
-        steps_per_epoch=562,
         validation_data=validation_generator,epochs = 50,
-        validation_steps=140,
         callbacks=callbacks_list)
 
 #my_new_model.save_weights('EBS_rasnet50_Eval.h5')
