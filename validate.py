@@ -27,7 +27,7 @@ classifier.summary()
 
 # Loading model weight
 start = time.time()
-classifier.load_weights('Old-019-acc_1.00000-valacc_1.00000.hdf5')
+classifier.load_weights('050-acc_1.00000-valacc_1.00000.hdf5')
 
 #Prediction Image filename cat_or_dog.jpg
 from keras.preprocessing import image as image_utils
@@ -36,8 +36,8 @@ test_image = image_utils.img_to_array(test_image)
 test_image = np.expand_dims(test_image, axis = 0)
 result = classifier.predict(test_image)
 
-print ('Good ',result[0][1]*100.0,'%')
-print ('Reject ',result[0][0]*100.0,'%')
+print ('Good ',result[0][0]*100.0,'%')
+print ('Reject ',result[0][1]*100.0,'%')
 
 end = time.time()
 print('Prediction time is',(end - start),' Seconds')
