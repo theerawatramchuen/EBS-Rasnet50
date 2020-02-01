@@ -23,7 +23,7 @@ my_new_model.add(ResNet50(include_top=False, pooling='avg',))
 my_new_model.add(Dense(num_classes, activation='softmax'))
 
 # Say yes to train first layer (ResNet) model.
-my_new_model.layers[0].trainable = true
+my_new_model.layers[0].trainable = True
 
 # Optimizer
 sgd = tensorflow.keras.optimizers.Adam(lr=2.5e-04, beta_1=0.9, beta_2=0.999, amsgrad=False)
@@ -64,7 +64,7 @@ validation_generator = data_generator.flow_from_directory(
 
 my_new_model.fit_generator(
         train_generator,
-        validation_data=validation_generator,epochs = 20,
+        validation_data=validation_generator,epochs = 100,
         callbacks=callbacks_list)
 
 end = time.time()
