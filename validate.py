@@ -27,7 +27,7 @@ classifier.summary()
 
 # Loading model weight
 start = time.time()
-classifier.load_weights('050-acc_1.00000-valacc_1.00000.hdf5')
+classifier.load_weights('002-acc_1.00000-valacc_1.00000.hdf5')
 
 #Prediction Image filename cat_or_dog.jpg
 from keras.preprocessing import image as image_utils
