@@ -1,5 +1,21 @@
-# Part 1 - Building the CNN
+# -*- coding: utf-8 -*-
+"""
 
+Created on Tue Jun  4 21:29:56 2019
+
+@author: Theerawat Ramchuen
+
+Update 2/2/2020
+
+"""
+## Validation Parameter ###################################################
+WEIGHT = '017-acc_1.00000-valacc_1.00000.hdf5'
+TRAINING_PATH = 'D:/EBS-Rasnet50/dataset/training_set'
+TEST_IMAGE = 'dataset/single_prediction/sample.jpg'
+###########################################################################
+
+# Code Start Here
+WEIGHT = 'checkpoint/' + WEIGHT
 # Importing the Keras libraries and packages
 import time
 import numpy as np
@@ -11,7 +27,20 @@ from keras.models import Sequential
 from keras.layers import Dense
 
 # Initialise the number of classes
-num_classes = 2
+# Get Number of Class 
+import os
+def fcount(path, map = {}):
+  count = 0
+  for f in os.listdir(path):
+    child = os.path.join(path, f)
+    if os.path.isdir(child):
+      child_count = fcount(child, map)
+      count += child_count + 1 # unless include self
+  map[path] = count
+  return count
+map = {}
+num_classes = fcount(TRAINING_PATH, map)
+#num_classes = 2
  
 # Build the model
 classifier = Sequential()
@@ -27,11 +56,11 @@ classifier.summary()
 
 # Loading model weight
 start = time.time()
-classifier.load_weights('002-acc_1.00000-valacc_1.00000.hdf5')
+classifier.load_weights(WEIGHT)
 
 #Prediction Image filename cat_or_dog.jpg
 from keras.preprocessing import image as image_utils
-test_image = image_utils.load_img('dataset/single_prediction/sample.jpg', target_size = (224, 224))
+test_image = image_utils.load_img(TEST_IMAGE, target_size = (224, 224))
 test_image = image_utils.img_to_array(test_image)
 test_image = np.expand_dims(test_image, axis = 0)
 result = classifier.predict(test_image)
@@ -41,3 +70,4 @@ print ('Reject ',result[0][1]*100.0,'%')
 
 end = time.time()
 print('Prediction time is',(end - start),' Seconds')
+print(result.shape)
