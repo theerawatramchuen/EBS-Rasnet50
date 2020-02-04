@@ -9,9 +9,9 @@ Update 2/2/2020
 
 """
 ## Validation Parameter ###################################################
-WEIGHT = '017-acc_1.00000-valacc_1.00000.hdf5'
-TRAINING_PATH = 'D:/EBS-Rasnet50/dataset/training_set'
-TEST_IMAGE = 'dataset/single_prediction/sample.jpg'
+WEIGHT = '100-acc_1.0000-vacc_1.0000-vloss1.768E-07-bs32-lr0.00025.hdf5'
+TRAINING_PATH = 'dataset/training_set'
+TEST_IMAGE = 'dataset/single_prediction/P2-002.jpg'
 ###########################################################################
 
 # Code Start Here
