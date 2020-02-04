@@ -1,5 +1,5 @@
 # EBS-Rasnet50
-Epoxy Best Setup with Rasnet50
+Epoxy Best Setup with Rasnet50 on tensorflow keras
 
 ## Proceduce
 
