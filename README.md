@@ -27,4 +27,6 @@ Epoxy Best Setup image classification python3 application with Rasnet50 on tenso
 
 8. bs = 16, lr = 2.5e-3, epoch = 200, pre-train 'imagenet', P2-002 = 1%  failed
 
+#### 9. bs = 8, lr = 2.5e-4, epoch = 50, pre-train 'imagenet', P2-002 = 
+
 ## Cheer
